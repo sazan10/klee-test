@@ -14,16 +14,22 @@ jobs:
       - name: Install dependencies for project
         run: | 
           sudo apt-get update
-          sudo apt-get install -y gperf libcap-dev meson gnulib bison automake autoconf
-          
+          sudo apt-get install -y gperf libcap-dev meson
+      - name: Install gnulib
+        run: | 
+
+
       - name: Install core utils
         run: | 
 
           wget ftp://ftp.gnu.org/gnu/coreutils/coreutils-6.10.tar.gz 
           tar -xvzf coreutils-6.10.tar.gz
           cd coreutils-6.10
-          sed -i 's/IO_ftrylockfile/IO_EOF_SEEN/' /home/runner/work/klee-test/klee-test/coreutils-6.10/lib/*.c
-          echo "#define _IO_IN_BACKUP 0x100" >> /home/runner/work/klee-test/klee-test/coreutils-6.10/lib/stdio-impl.h
+          git clone https://git.savannah.gnu.org/git/gnulib.git
+          cd gnulib
+          git checkout 16c6ed6
+          cd ..
+          gnulib/gnulib-tool --import stdio
           ./configure 
           make
           make -k check >& log
