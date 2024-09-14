@@ -16,7 +16,17 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y gperf libcap-dev meson
           
-
+      - name: Install core utils
+        run: | 
+          wget ftp://ftp.gnu.org/gnu/coreutils/coreutils-6.10.tar.gz 
+          tar -xvzf coreutils-6.10.tar.gz
+          cd coreutils-6.10
+          ./configure
+          make
+          make -k check >& log
+          grep FAIL log
+          cd src
+          llvm-link ptx.o -o ptx.bc
       
       - name: Install Klee and STP dependencies
         run: |
