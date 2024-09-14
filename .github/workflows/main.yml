@@ -18,8 +18,7 @@ jobs:
           
       - name: Install core utils
         run: | 
-          sed -i 's/IO_ftrylockfile/IO_EOF_SEEN/' lib/*.c
-          echo "#define _IO_IN_BACKUP 0x100" >> lib/stdio-impl.h
+
           wget ftp://ftp.gnu.org/gnu/coreutils/coreutils-6.10.tar.gz 
           tar -xvzf coreutils-6.10.tar.gz
           cd coreutils-6.10
